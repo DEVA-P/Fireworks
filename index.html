@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Name Page</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: radial-gradient(circle, #003366, #000000);
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+        }
+
+        #container {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #name {
+            font-size: 4em;
+            color: #ffffff;
+            margin-top: 20%;
+            cursor: pointer;
+            user-select: none;
+            z-index: 10;
+            position: relative;
+        }
+
+        .balloon {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            border-radius: 50% 50% 0 0;
+            background: linear-gradient(180deg, #ff6f61 0%, #ff3e3e 100%);
+            animation: rise 3s forwards;
+            transform-origin: bottom center;
+        }
+
+        .balloon:before {
+            content: "";
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            width: 4px;
+            height: 20px;
+            background: #000;
+            transform: translateX(-10%);
+        }
+
+        .firework {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #fff 0%, transparent 70%);
+            animation: explode 2s forwards;
+            pointer-events: none;
+        }
+
+        @keyframes rise {
+            from {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(-120vh) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        @keyframes explode {
+            from {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+            to {
+                transform: scale(2) translateY(-80vh);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="name" onclick="createCelebration(event)">ARCHANA G</div>
+    </div>
+
+    <script>
+        function createCelebration(event) {
+            const mouseX = event.clientX;
+            const mouseY = event.clientY;
+
+            // Create balloons
+            for (let i = 0; i < 10; i++) {
+                const balloon = document.createElement('div');
+                balloon.className = 'balloon';
+                balloon.style.left = `${mouseX}px`;
+                balloon.style.top = `${mouseY}px`;
+                balloon.style.background = `hsl(${Math.random() * 360}, 70%, 70%)`;
+
+                document.body.appendChild(balloon);
+
+                // Animate balloons to move outward
+                balloon.animate([
+                    { transform: `translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px)` }
+                ], {
+                    duration: 3000,
+                    easing: 'ease-out'
+                }).onfinish = () => balloon.remove();
+            }
+
+            // Create fireworks
+            for (let i = 0; i < 50; i++) {
+                const firework = document.createElement('div');
+                firework.className = 'firework';
+                firework.style.left = `${mouseX}px`;
+                firework.style.top = `${mouseY}px`;
+                firework.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+
+                document.body.appendChild(firework);
+
+                // Animate fireworks to move outward
+                firework.animate([
+                    { transform: `translate(${Math.random() * 300 - 150}px, ${Math.random() * 300 - 150}px) scale(2)` }
+                ], {
+                    duration: 1000,
+                    easing: 'ease-out'
+                }).onfinish = () => firework.remove();
+            }
+        }
+    </script>
+</body>
+</html>
